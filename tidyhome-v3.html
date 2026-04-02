@@ -29,7 +29,7 @@
     "@type": "City",
     "name": "Christchurch"
   },
-  "priceRange": "From $45/hr",
+  "priceRange": "From $99 per turnover (Airbnb) · $45/hr (Home Cleaning)",
   "openingHours": "Mo-Fr 11:30-14:00",
   "serviceType": ["Airbnb Cleaning", "Home Cleaning", "Turnaround Cleaning"],
   "knowsAbout": ["Airbnb turnaround cleaning", "Short-term rental cleaning", "Residential cleaning", "Townhouse cleaning"],
@@ -46,9 +46,10 @@
         },
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "45",
+          "minPrice": "99",
+          "maxPrice": "160",
           "priceCurrency": "NZD",
-          "unitText": "per hour"
+          "unitText": "per turnover"
         }
       },
       {
@@ -79,7 +80,7 @@
       "name": "How much does Airbnb cleaning cost in Christchurch?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Tidy Home charges $45 per hour for Airbnb turnaround cleans in Christchurch. A standard 1–2 bedroom clean typically takes around 1.5–2 hours."
+        "text": "Tidy Home offers flat-rate Airbnb turnaround cleans in Christchurch from $99 per turnover. Most 1–3 bedroom properties fall between $99–$160 depending on size, linen requirements, and condition."
       }
     },
     {
@@ -433,6 +434,7 @@ section { padding: 6rem 5vw; }
 .service-features li::before {
   content: '→'; color: var(--blue); font-size: 0.75rem; flex-shrink: 0;
 }
+.service-addons-note { font-size: 0.72rem; color: var(--blue-mid); margin-top: 0.8rem; font-style: italic; }
 
 /* ── BOOKING ── */
 .booking { background: var(--white); }
@@ -510,6 +512,12 @@ section { padding: 6rem 5vw; }
 .svc-card-name { font-size: 0.88rem; font-weight: 700; color: var(--bark); margin-bottom: 0.2rem; }
 .svc-card-desc { font-size: 0.72rem; color: var(--bark-light); line-height: 1.4; }
 .svc-card-rate { font-size: 0.78rem; font-weight: 700; color: var(--blue); margin-top: 0.4rem; }
+.addon-label { font-size: 0.78rem; font-weight: 700; color: var(--bark); margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.addon-grid { display: flex; flex-direction: column; gap: 0.4rem; }
+.addon-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.84rem; color: var(--bark-mid); }
+.addon-item input[type="checkbox"] { accent-color: var(--blue); width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+.addon-item label { cursor: pointer; flex: 1; }
+.addon-price { font-size: 0.76rem; color: var(--bark-light); white-space: nowrap; }
 
 /* Calendar */
 .cal-header {
@@ -626,7 +634,7 @@ section { padding: 6rem 5vw; }
 
 /* ── FAQ ── */
 .faq { background: var(--white); }
-.faq-list { margin-top: 3rem; max-width: 720px; }
+.faq-list { margin: 3rem auto 0; max-width: 720px; }
 .faq-item {
   border-bottom: 1.5px solid var(--linen);
 }
@@ -854,15 +862,16 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
       <h3>Airbnb Turnaround Clean</h3>
       <p>Professional Airbnb cleaning in Christchurch for homes, townhouses and apartments. Guests leave, we clean, your next guests arrive to a spotless 1–3 bedroom property. Fast, thorough, and reliable — so your listing stays five-star.</p>
       <div class="service-rate">
-        <div class="rate-big">$45</div>
-        <div class="rate-sm">/ hour · avg 1.5–2 hrs per turnaround</div>
+        <div class="rate-big">From $99</div>
+        <div class="rate-sm">per turnover · most 1–3 bed properties $99–$160</div>
       </div>
       <ul class="service-features">
         <li>Full property clean</li>
-        <li>Guest-ready linen setup</li>
-        <li>Guest amenity reset</li>
-        <li>Priority scheduling</li>
+        <li>Kitchen &amp; bathroom reset</li>
+        <li>Guest-ready bed setup (client linen)</li>
+        <li>Rubbish removal</li>
       </ul>
+      <p class="service-addons-note">Optional add-ons available</p>
     </div>
     <div class="service-card fi">
       <div class="service-icon">🏡</div>
@@ -870,14 +879,15 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
       <p>Regular home cleaning for Christchurch homes, townhouses and apartments, 1–3 bedrooms. Surfaces, bathrooms, kitchen, vacuuming and mopping. Scheduled weekly or fortnightly — your home, consistently cared for.</p>
       <div class="service-rate">
         <div class="rate-big">$45</div>
-        <div class="rate-sm">/ hour · avg 2–2.5 hrs per visit</div>
+        <div class="rate-sm">/ hour · minimum 2 hours</div>
       </div>
       <ul class="service-features">
-        <li>Kitchen & surfaces</li>
-        <li>Bathrooms & toilets</li>
-        <li>Vacuuming & mopping</li>
+        <li>Regular weekly or fortnightly cleans</li>
+        <li>One-off &amp; deep cleans</li>
+        <li>Kitchen, bathrooms, vacuuming &amp; mop</li>
         <li>Eco-friendly products</li>
       </ul>
+      <p class="service-addons-note">Optional add-ons available</p>
     </div>
   </div>
 </section>
@@ -890,7 +900,7 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
   <div class="faq-list">
     <div class="faq-item fi">
       <button class="faq-q" onclick="toggleFaq(this)">How much does Airbnb cleaning cost in Christchurch?</button>
-      <div class="faq-a"><p>Tidy Home charges $45 per hour for Airbnb turnaround cleans in Christchurch. A standard 1–2 bedroom clean typically takes around 1.5–2 hours.</p></div>
+      <div class="faq-a"><p>Tidy Home offers flat-rate Airbnb turnaround cleans in Christchurch from $99 per turnover. Most 1–3 bedroom properties fall between $99–$160 depending on size, linen requirements, and condition.</p></div>
     </div>
     <div class="faq-item fi">
       <button class="faq-q" onclick="toggleFaq(this)">How much does a house cleaner cost in Christchurch?</button>
@@ -944,14 +954,18 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
             <div class="svc-card-icon">🛎</div>
             <div class="svc-card-name">Airbnb Turnaround Clean</div>
             <div class="svc-card-desc">Guest-ready clean between bookings.</div>
-            <div class="svc-card-rate">$45/hr · avg 1.5–2 hrs</div>
+            <div class="svc-card-rate">From $99 per turnover</div>
           </div>
           <div class="svc-card" onclick="selSvc(this,'Home Cleaning','~2–2.5 hrs')">
             <div class="svc-card-icon">🏡</div>
             <div class="svc-card-name">Home Cleaning</div>
             <div class="svc-card-desc">Regular clean for 1–3 bedroom homes.</div>
-            <div class="svc-card-rate">$45/hr · avg 2–2.5 hrs</div>
+            <div class="svc-card-rate">$45/hr · minimum 2 hours</div>
           </div>
+        </div>
+        <div id="addon-wrap" style="display:none; margin-top:1.5rem;">
+          <p class="addon-label">Optional add-ons:</p>
+          <div id="addon-list" class="addon-grid"></div>
         </div>
         <button class="w-btn" id="b1" disabled onclick="goStep(2)">Continue — Choose Date →</button>
       </div>
@@ -1017,6 +1031,7 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
   <input name="service">
   <input name="date">
   <input name="time">
+  <input name="addons">
   <input name="firstName">
   <input name="lastName">
   <input name="email">
@@ -1074,7 +1089,7 @@ function getAvailableDays(){
 }
 
 // ── STATE ──
-let svcName='', svcDur='', selDate=null, selTime='';
+let svcName='', svcDur='', selDate=null, selTime='', selAddons=[];
 let calY=2026, calM=3;
 function getTimes(){
   const s=getSettings();
@@ -1083,12 +1098,45 @@ function getTimes(){
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
+// ── ADD-ONS ──
+const ADDONS={
+  'Airbnb Turnaround Clean':[
+    {id:'a1',label:'Linen handling (client-provided)',price:'$10–$20'},
+    {id:'a2',label:'Linen washing & rotation (client-owned)',price:'$20–$40'},
+    {id:'a3',label:'Restocking essentials',price:'from $10'},
+    {id:'a4',label:'Same-day / urgent turnaround',price:'from $20'},
+  ],
+  'Home Cleaning':[
+    {id:'h1',label:'Dishes washed & put away',price:'from $10'},
+    {id:'h2',label:'Load laundry (wash & start)',price:'from $10/load'},
+    {id:'h3',label:'Fold & put away laundry',price:'$10–$20/load'},
+    {id:'h4',label:'Bed linen change (client-provided)',price:'$10–$20/bed'},
+    {id:'h5',label:'Fridge cleaning',price:'$30–$50'},
+    {id:'h6',label:'Inside cabinets / drawers',price:'from $20'},
+  ]
+};
+function renderAddons(name){
+  selAddons=[];
+  const list=ADDONS[name]||[];
+  const wrap=document.getElementById('addon-wrap');
+  if(!list.length){wrap.style.display='none';return;}
+  document.getElementById('addon-list').innerHTML=list.map(a=>
+    `<div class="addon-item"><input type="checkbox" id="${a.id}" value="${a.label}" onchange="toggleAddon(this)"><label for="${a.id}">${a.label}</label><span class="addon-price">${a.price}</span></div>`
+  ).join('');
+  wrap.style.display='block';
+}
+function toggleAddon(cb){
+  if(cb.checked) selAddons.push(cb.value);
+  else selAddons=selAddons.filter(x=>x!==cb.value);
+}
+
 // ── SERVICE SELECT ──
 function selSvc(el,name,dur){
   document.querySelectorAll('.svc-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   svcName=name; svcDur=dur;
   document.getElementById('b1').disabled=false;
+  renderAddons(name);
 }
 
 // ── STEP NAV ──
@@ -1164,9 +1212,10 @@ function renderSummary(){
   const d=selDate?new Date(selDate):null;
   document.getElementById('summary').innerHTML=`
     <div class="sum-row"><span class="sum-lbl">Service</span><span>${svcName}</span></div>
+    ${selAddons.length?`<div class="sum-row"><span class="sum-lbl">Add-ons</span><span>${selAddons.join(', ')}</span></div>`:''}
     <div class="sum-row"><span class="sum-lbl">Date</span><span>${d?d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'long',year:'numeric'}):''}</span></div>
     <div class="sum-row"><span class="sum-lbl">Time</span><span>${selTime}</span></div>
-    <div class="sum-row"><span class="sum-lbl">Rate</span><span>$45/hr · invoiced after confirmation</span></div>`;
+    <div class="sum-row"><span class="sum-lbl">Rate</span><span>Pricing confirmed after booking</span></div>`;
 }
 
 // ── SUBMIT ──
@@ -1186,6 +1235,7 @@ function submitBook(){
     body: new URLSearchParams({
       'form-name': 'booking',
       service: svcName, date: selDate, time: selTime,
+      addons: selAddons.join(', '),
       firstName: fn, lastName: ln,
       email: em, phone: ph,
       address: ad, notes: nt
