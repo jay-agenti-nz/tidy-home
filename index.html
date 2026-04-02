@@ -1076,10 +1076,10 @@ function getAvailableDays(){
 // ── STATE ──
 let svcName='', svcDur='', selDate=null, selTime='';
 let calY=2026, calM=3;
-const times=[
-  {t:'11:30am',l:'11:30 AM'},
-  {t:'12:00pm',l:'12:00 PM'}
-];
+function getTimes(){
+  const s=getSettings();
+  return s.timeSlots||[{t:'11:30am',l:'11:30 AM'},{t:'12:00pm',l:'12:00 PM'}];
+}
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -1146,7 +1146,7 @@ function showSlots(d,dow){
   const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   document.getElementById('date-lbl').textContent=`${days[dow]||''} ${d||''} ${mo[calM]}`;
   wrap.style.display='block';
-  document.getElementById('slots-grid').innerHTML=times.map(ts=>`
+  document.getElementById('slots-grid').innerHTML=getTimes().map(ts=>`
     <div class="t-slot ${selTime===ts.t?'selected':''}" onclick="pickTime('${ts.t}',event)">
       <div class="t-slot-t">${ts.l}</div>
       <div class="t-slot-s">Available ✓</div>

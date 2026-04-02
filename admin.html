@@ -175,11 +175,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="settings-row" id="day-checks"></div>
       </div>
       <div class="settings-section">
-        <h4>Working Hours</h4>
+        <h4>Booking Time Slots</h4>
         <div class="settings-row">
-          <label>Start time: <input type="time" id="set-start" value="11:30"></label>
-          <label>End time: <input type="time" id="set-end" value="15:00"></label>
+          <input type="time" id="new-slot" value="11:30">
+          <button class="btn-secondary" onclick="addSlot()">Add Slot</button>
         </div>
+        <div class="blocked-list" id="slots-list"></div>
       </div>
       <div class="settings-section">
         <h4>Blocked Dates</h4>
@@ -405,9 +406,8 @@ function renderSettings(){
   document.getElementById('day-checks').innerHTML=dayNames.map((n,i)=>
     `<label><input type="checkbox" value="${dayNums[i]}" ${availDays.includes(dayNums[i])?'checked':''}> ${n}</label>`
   ).join('');
-  document.getElementById('set-start').value=s.startTime||'11:30';
-  document.getElementById('set-end').value=s.endTime||'15:00';
   renderBlocked();
+  renderSlots();
 }
 function renderBlocked(){
   const s=getSettings();
@@ -436,13 +436,51 @@ function removeBlocked(d){
   renderBlocked();
   toast('Date unblocked');
 }
+function getTimeSlots(){
+  const s=getSettings();
+  return s.timeSlots||[{t:'11:30am',l:'11:30 AM'},{t:'12:00pm',l:'12:00 PM'}];
+}
+function renderSlots(){
+  const slots=getTimeSlots();
+  if(!slots.length){document.getElementById('slots-list').innerHTML='<span style="font-size:0.78rem;color:var(--bark-light)">No time slots.</span>';return;}
+  document.getElementById('slots-list').innerHTML=slots.map(ts=>
+    `<span class="blocked-item">${ts.l} <button onclick="removeSlot('${ts.t}')">&times;</button></span>`
+  ).join('');
+}
+function addSlot(){
+  const val=document.getElementById('new-slot').value;
+  if(!val)return;
+  const [h,m]=val.split(':').map(Number);
+  const ampm=h>=12?'pm':'am';
+  const h12=h%12||12;
+  const pad=m.toString().padStart(2,'0');
+  const t=`${h12}:${pad}${ampm}`;
+  const l=`${h12}:${pad} ${ampm.toUpperCase()}`;
+  const s=getSettings();
+  const slots=s.timeSlots||[{t:'11:30am',l:'11:30 AM'},{t:'12:00pm',l:'12:00 PM'}];
+  if(slots.find(x=>x.t===t)){toast('Slot already exists');return;}
+  slots.push({t,l});
+  slots.sort((a,b)=>{
+    const toMins=x=>{const [hh,rest]=x.t.split(':');const mm=parseInt(rest);const h24=(parseInt(hh)%12)+(x.t.endsWith('pm')?12:0);return h24*60+mm;};
+    return toMins(a)-toMins(b);
+  });
+  s.timeSlots=slots;
+  saveSettingsData(s);
+  renderSlots();
+  toast('Time slot added');
+}
+function removeSlot(t){
+  const s=getSettings();
+  s.timeSlots=(s.timeSlots||[]).filter(x=>x.t!==t);
+  saveSettingsData(s);
+  renderSlots();
+  toast('Time slot removed');
+}
 function saveSettings(){
   const s=getSettings();
   const checks=document.querySelectorAll('#day-checks input[type="checkbox"]');
   s.availableDays=[];
   checks.forEach(c=>{if(c.checked)s.availableDays.push(parseInt(c.value));});
-  s.startTime=document.getElementById('set-start').value;
-  s.endTime=document.getElementById('set-end').value;
   saveSettingsData(s);
   toast('Settings saved');
 }
