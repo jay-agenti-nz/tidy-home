@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tidy Home — Admin</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --blue:#2D2DFF;--blue-dark:#1A1ACC;--blue-pale:#EEEEFF;--blue-mid:#C0C0FF;
+  --cream:#F2EFE8;--linen:#E8E4DA;--bark:#2A2520;--bark-mid:#5C5248;
+  --bark-light:#9A8E82;--white:#FDFCFA;
+  --green:#2E7D32;--green-pale:#E8F5E9;
+  --orange:#E65100;--orange-pale:#FFF3E0;
+  --red:#C62828;--red-pale:#FFEBEE;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--cream);color:var(--bark);min-height:100vh;}
+
+/* ── AUTH GATE ── */
+.auth-gate{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem;}
+.auth-box{background:var(--white);border-radius:12px;padding:2.5rem;max-width:360px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.08);text-align:center;}
+.auth-box img{height:50px;margin-bottom:1.5rem;}
+.auth-box h2{font-size:1.2rem;margin-bottom:0.4rem;color:var(--bark);}
+.auth-box p{font-size:0.82rem;color:var(--bark-light);margin-bottom:1.5rem;}
+.auth-box input{width:100%;padding:0.7rem 1rem;border:1.5px solid var(--linen);border-radius:8px;font-size:0.9rem;outline:none;margin-bottom:1rem;}
+.auth-box input:focus{border-color:var(--blue);}
+.auth-box button{width:100%;padding:0.75rem;background:var(--blue);color:white;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.auth-box button:hover{background:var(--blue-dark);}
+.auth-error{color:var(--red);font-size:0.78rem;margin-top:0.5rem;display:none;}
+
+/* ── ADMIN LAYOUT ── */
+.admin{display:none;}
+.admin-header{background:var(--white);border-bottom:1px solid var(--linen);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.admin-header img{height:32px;}
+.admin-header-right{display:flex;align-items:center;gap:1rem;}
+.admin-header-right span{font-size:0.78rem;color:var(--bark-light);}
+.btn-logout{background:none;border:1px solid var(--linen);border-radius:6px;padding:0.4rem 0.8rem;font-size:0.72rem;color:var(--bark-light);cursor:pointer;transition:all 0.2s;}
+.btn-logout:hover{border-color:var(--bark-mid);color:var(--bark);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:1.5px solid var(--linen);background:var(--white);padding:0 2rem;}
+.tab{padding:0.9rem 1.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--bark-light);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+.tab:hover{color:var(--bark);}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* ── CONTENT ── */
+.content{max-width:1000px;margin:0 auto;padding:2rem;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── DASHBOARD ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;margin-bottom:2rem;}
+.dash-card{background:var(--white);border-radius:10px;padding:1.5rem;border:1px solid var(--linen);}
+.dash-card-label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bark-light);margin-bottom:0.5rem;}
+.dash-card-val{font-size:2rem;font-weight:700;color:var(--blue);}
+.dash-card-sub{font-size:0.78rem;color:var(--bark-light);margin-top:0.3rem;}
+
+.week-title{font-size:1rem;font-weight:700;color:var(--bark);margin-bottom:1rem;}
+.week-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.8rem;margin-bottom:2rem;}
+.week-day{background:var(--white);border-radius:8px;padding:1rem;border:1px solid var(--linen);text-align:center;}
+.week-day-name{font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--bark-light);margin-bottom:0.3rem;}
+.week-day-date{font-size:0.85rem;font-weight:700;color:var(--bark);margin-bottom:0.5rem;}
+.week-day-status{font-size:0.7rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:12px;display:inline-block;}
+.week-day-status.open{background:var(--green-pale);color:var(--green);}
+.week-day-status.booked{background:var(--blue-pale);color:var(--blue);}
+.week-day-status.pending{background:var(--orange-pale);color:var(--orange);}
+.week-day-status.blocked{background:var(--red-pale);color:var(--red);}
+.week-day-client{font-size:0.72rem;color:var(--bark-mid);margin-top:0.4rem;}
+
+/* ── BOOKINGS LIST ── */
+.bookings-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.8rem;}
+.bookings-toolbar h3{font-size:1rem;font-weight:700;}
+.filter-btns{display:flex;gap:0.4rem;}
+.filter-btn{padding:0.35rem 0.8rem;border-radius:20px;border:1px solid var(--linen);background:var(--white);font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--bark-mid);}
+.filter-btn:hover{border-color:var(--blue-mid);}
+.filter-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
+
+.booking-card{background:var(--white);border-radius:10px;padding:1.2rem 1.5rem;border:1px solid var(--linen);margin-bottom:0.8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;transition:all 0.2s;}
+.booking-card:hover{border-color:var(--blue-mid);box-shadow:0 4px 12px rgba(0,0,0,0.04);}
+.booking-info-col{flex:1;min-width:200px;}
+.booking-client{font-size:0.92rem;font-weight:700;color:var(--bark);margin-bottom:0.2rem;}
+.booking-detail{font-size:0.78rem;color:var(--bark-mid);line-height:1.6;}
+.booking-status{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:20px;}
+.booking-status.pending{background:var(--orange-pale);color:var(--orange);}
+.booking-status.confirmed{background:var(--green-pale);color:var(--green);}
+.booking-status.completed{background:var(--blue-pale);color:var(--blue);}
+.booking-status.cancelled{background:var(--red-pale);color:var(--red);}
+.booking-actions{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.action-btn{padding:0.4rem 0.8rem;border-radius:6px;border:1px solid var(--linen);background:var(--white);font-size:0.72rem;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--bark-mid);}
+.action-btn:hover{border-color:var(--bark-mid);color:var(--bark);}
+.action-btn.confirm{border-color:var(--green);color:var(--green);}
+.action-btn.confirm:hover{background:var(--green);color:white;}
+.action-btn.cancel{border-color:var(--red);color:var(--red);}
+.action-btn.cancel:hover{background:var(--red);color:white;}
+.action-btn.complete{border-color:var(--blue);color:var(--blue);}
+.action-btn.complete:hover{background:var(--blue);color:white;}
+
+.empty-state{text-align:center;padding:3rem;color:var(--bark-light);font-size:0.88rem;}
+
+/* ── SETTINGS ── */
+.settings-section{background:var(--white);border-radius:10px;padding:1.5rem 2rem;border:1px solid var(--linen);margin-bottom:1.5rem;}
+.settings-section h4{font-size:0.88rem;font-weight:700;color:var(--bark);margin-bottom:1rem;}
+.settings-row{display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;flex-wrap:wrap;}
+.settings-row label{font-size:0.82rem;color:var(--bark-mid);display:flex;align-items:center;gap:0.4rem;cursor:pointer;}
+.settings-row input[type="checkbox"]{accent-color:var(--blue);width:16px;height:16px;}
+.settings-row input[type="time"],.settings-row input[type="date"]{padding:0.5rem 0.8rem;border:1.5px solid var(--linen);border-radius:6px;font-size:0.82rem;outline:none;}
+.settings-row input[type="time"]:focus,.settings-row input[type="date"]:focus{border-color:var(--blue);}
+.btn-save{background:var(--blue);color:white;border:none;border-radius:6px;padding:0.6rem 1.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;cursor:pointer;transition:background 0.2s;}
+.btn-save:hover{background:var(--blue-dark);}
+.btn-secondary{background:var(--white);color:var(--bark-mid);border:1px solid var(--linen);border-radius:6px;padding:0.6rem 1.5rem;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-secondary:hover{border-color:var(--bark-mid);color:var(--bark);}
+.blocked-list{margin-top:0.8rem;}
+.blocked-item{display:inline-flex;align-items:center;gap:0.4rem;background:var(--red-pale);color:var(--red);font-size:0.75rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:20px;margin:0.2rem;}
+.blocked-item button{background:none;border:none;color:var(--red);cursor:pointer;font-size:0.85rem;line-height:1;}
+.settings-actions{display:flex;gap:0.8rem;margin-top:1rem;}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--bark);color:white;padding:0.8rem 1.5rem;border-radius:8px;font-size:0.82rem;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;z-index:9999;}
+.toast.show{opacity:1;transform:none;}
+
+@media(max-width:700px){
+  .dash-grid{grid-template-columns:1fr;}
+  .week-grid{grid-template-columns:1fr 1fr;}
+  .booking-card{flex-direction:column;align-items:flex-start;}
+  .tabs{overflow-x:auto;padding:0 1rem;}
+  .tab{padding:0.9rem 1rem;white-space:nowrap;}
+  .content{padding:1.2rem;}
+  .settings-row{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- ADMIN -->
+<div class="admin" id="admin" style="display:block">
+  <div class="admin-header">
+    <img src="tidy home-bg.png" alt="Tidy Home">
+    <div class="admin-header-right">
+      <span>Admin Panel</span>
+      <button class="btn-logout" onclick="doLogout()">Log out</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('dashboard')">Dashboard</div>
+    <div class="tab" onclick="switchTab('bookings')">Bookings</div>
+    <div class="tab" onclick="switchTab('settings')">Settings</div>
+  </div>
+
+  <div class="content">
+    <!-- DASHBOARD -->
+    <div class="panel active" id="p-dashboard">
+      <div class="dash-grid" id="dash-cards"></div>
+      <div class="week-title">This week</div>
+      <div class="week-grid" id="week-grid"></div>
+    </div>
+
+    <!-- BOOKINGS -->
+    <div class="panel" id="p-bookings">
+      <div class="bookings-toolbar">
+        <h3>All Bookings</h3>
+        <div class="filter-btns">
+          <button class="filter-btn active" onclick="setFilter('all')">All</button>
+          <button class="filter-btn" onclick="setFilter('pending')">Pending</button>
+          <button class="filter-btn" onclick="setFilter('confirmed')">Confirmed</button>
+          <button class="filter-btn" onclick="setFilter('completed')">Completed</button>
+          <button class="filter-btn" onclick="setFilter('cancelled')">Cancelled</button>
+        </div>
+      </div>
+      <div id="bookings-list"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="panel" id="p-settings">
+      <div class="settings-section">
+        <h4>Available Days</h4>
+        <div class="settings-row" id="day-checks"></div>
+      </div>
+      <div class="settings-section">
+        <h4>Working Hours</h4>
+        <div class="settings-row">
+          <label>Start time: <input type="time" id="set-start" value="11:30"></label>
+          <label>End time: <input type="time" id="set-end" value="15:00"></label>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h4>Blocked Dates</h4>
+        <div class="settings-row">
+          <input type="date" id="block-date">
+          <button class="btn-secondary" onclick="addBlocked()">Block Date</button>
+        </div>
+        <div class="blocked-list" id="blocked-list"></div>
+      </div>
+      <div class="settings-section">
+        <h4>Admin Password</h4>
+        <div class="settings-row">
+          <input type="password" id="new-pw" placeholder="New password" style="padding:0.5rem 0.8rem;border:1.5px solid var(--linen);border-radius:6px;font-size:0.82rem;outline:none;">
+          <button class="btn-secondary" onclick="changePw()">Update Password</button>
+        </div>
+      </div>
+      <div class="settings-actions">
+        <button class="btn-save" onclick="saveSettings()">Save Settings</button>
+        <button class="btn-secondary" onclick="exportBookings()">Export Bookings (JSON)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── AUTH ──
+const DEFAULT_PW='tidyhome2026';
+function getPw(){return localStorage.getItem('tidyhome_admin_pw')||DEFAULT_PW;}
+function doLogin(){
+  const pw=document.getElementById('auth-pw').value;
+  if(pw===getPw()){
+    sessionStorage.setItem('tidyhome_auth','1');
+    showAdmin();
+  } else {
+    document.getElementById('auth-err').style.display='block';
+  }
+}
+function doLogout(){
+  sessionStorage.removeItem('tidyhome_auth');
+  document.getElementById('admin').style.display='none';
+  document.getElementById('auth-gate').style.display='flex';
+  document.getElementById('auth-pw').value='';
+  document.getElementById('auth-err').style.display='none';
+}
+function showAdmin(){
+  document.getElementById('auth-gate').style.display='none';
+  document.getElementById('admin').style.display='block';
+  renderDashboard();
+}
+function changePw(){
+  const np=document.getElementById('new-pw').value.trim();
+  if(!np||np.length<4){toast('Password must be at least 4 characters');return;}
+  localStorage.setItem('tidyhome_admin_pw',np);
+  document.getElementById('new-pw').value='';
+  toast('Password updated');
+}
+
+// ── DATA ──
+function getBookings(){
+  try{return JSON.parse(localStorage.getItem('tidyhome_bookings')||'[]');}
+  catch(e){return [];}
+}
+function saveBookings(b){localStorage.setItem('tidyhome_bookings',JSON.stringify(b));}
+function getSettings(){
+  try{return JSON.parse(localStorage.getItem('tidyhome_settings')||'{}');}
+  catch(e){return {};}
+}
+function saveSettingsData(s){localStorage.setItem('tidyhome_settings',JSON.stringify(s));}
+
+// ── TABS ──
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.remove('active');});
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('p-'+name).classList.add('active');
+  if(name==='dashboard')renderDashboard();
+  if(name==='bookings')renderBookings();
+  if(name==='settings')renderSettings();
+}
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const bookings=getBookings();
+  const today=new Date();today.setHours(0,0,0,0);
+  const todayStr=fmtDate(today);
+  const pending=bookings.filter(b=>b.status==='pending').length;
+  const confirmed=bookings.filter(b=>b.status==='confirmed').length;
+  const todayBooking=bookings.find(b=>b.date===todayStr&&(b.status==='confirmed'||b.status==='pending'));
+
+  document.getElementById('dash-cards').innerHTML=`
+    <div class="dash-card">
+      <div class="dash-card-label">Today</div>
+      <div class="dash-card-val">${todayBooking?'1':'0'}</div>
+      <div class="dash-card-sub">${todayBooking?todayBooking.firstName+' '+todayBooking.lastName+' — '+todayBooking.service:'No booking today'}</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-label">Pending</div>
+      <div class="dash-card-val">${pending}</div>
+      <div class="dash-card-sub">Awaiting confirmation</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-label">Confirmed</div>
+      <div class="dash-card-val">${confirmed}</div>
+      <div class="dash-card-sub">Upcoming bookings</div>
+    </div>`;
+
+  // Week view
+  const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const mon=getMonday(today);
+  let weekHtml='';
+  for(let i=0;i<5;i++){
+    const d=new Date(mon);d.setDate(mon.getDate()+i);
+    const ds=fmtDate(d);
+    const bk=bookings.find(b=>b.date===ds&&b.status!=='cancelled');
+    const blocked=(getSettings().blockedDates||[]).includes(ds);
+    const isPast=d<today;
+    let statusCls='open',statusTxt='Open',clientTxt='';
+    if(blocked){statusCls='blocked';statusTxt='Blocked';}
+    else if(bk&&bk.status==='pending'){statusCls='pending';statusTxt='Pending';clientTxt=bk.firstName+' '+(bk.lastName||'');}
+    else if(bk&&bk.status==='confirmed'){statusCls='booked';statusTxt='Booked';clientTxt=bk.firstName+' '+(bk.lastName||'');}
+    else if(bk&&bk.status==='completed'){statusCls='booked';statusTxt='Done';clientTxt=bk.firstName+' '+(bk.lastName||'');}
+    else if(isPast){statusCls='blocked';statusTxt='Past';}
+    weekHtml+=`<div class="week-day">
+      <div class="week-day-name">${dayNames[d.getDay()]}</div>
+      <div class="week-day-date">${d.getDate()} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]}</div>
+      <div class="week-day-status ${statusCls}">${statusTxt}</div>
+      ${clientTxt?`<div class="week-day-client">${clientTxt}</div>`:''}
+    </div>`;
+  }
+  document.getElementById('week-grid').innerHTML=weekHtml;
+}
+
+// ── BOOKINGS ──
+let currentFilter='all';
+function setFilter(f){
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('active');});
+  document.querySelector(`.filter-btn[onclick*="${f}"]`).classList.add('active');
+  renderBookings();
+}
+function renderBookings(){
+  const bookings=getBookings().sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  const filtered=currentFilter==='all'?bookings:bookings.filter(b=>b.status===currentFilter);
+  if(!filtered.length){
+    document.getElementById('bookings-list').innerHTML='<div class="empty-state">No bookings found.</div>';
+    return;
+  }
+  document.getElementById('bookings-list').innerHTML=filtered.map(b=>{
+    const d=new Date(b.date+'T00:00:00');
+    const dateStr=d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+    let actions='';
+    if(b.status==='pending'){
+      actions=`<button class="action-btn confirm" onclick="confirmBooking('${b.id}')">Confirm</button>
+               <button class="action-btn cancel" onclick="cancelBooking('${b.id}')">Cancel</button>`;
+    } else if(b.status==='confirmed'){
+      actions=`<button class="action-btn complete" onclick="completeBooking('${b.id}')">Complete</button>
+               <button class="action-btn cancel" onclick="cancelBooking('${b.id}')">Cancel</button>`;
+    }
+    return `<div class="booking-card">
+      <div class="booking-info-col">
+        <div class="booking-client">${b.firstName} ${b.lastName||''}</div>
+        <div class="booking-detail">
+          ${b.service} &middot; ${dateStr} &middot; ${b.time}<br>
+          ${b.email}${b.phone?' &middot; '+b.phone:''}<br>
+          ${b.address||''}${b.notes?' &middot; '+b.notes:''}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;">
+        <span class="booking-status ${b.status}">${b.status}</span>
+        ${actions}
+        <button class="action-btn" onclick="sendEmail('${b.id}')">Email</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateStatus(id,status){
+  const bookings=getBookings();
+  const bk=bookings.find(b=>b.id===id);
+  if(bk)bk.status=status;
+  saveBookings(bookings);
+  renderBookings();
+  renderDashboard();
+}
+function confirmBooking(id){updateStatus(id,'confirmed');toast('Booking confirmed');}
+function cancelBooking(id){if(confirm('Cancel this booking?')){updateStatus(id,'cancelled');toast('Booking cancelled');}}
+function completeBooking(id){updateStatus(id,'completed');toast('Booking marked complete');}
+
+function sendEmail(id){
+  const bk=getBookings().find(b=>b.id===id);
+  if(!bk)return;
+  const d=new Date(bk.date+'T00:00:00');
+  const dateStr=d.toLocaleDateString('en-NZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const subject=encodeURIComponent(`Tidy Home — Booking ${bk.status==='confirmed'?'Confirmation':'Update'}`);
+  const body=encodeURIComponent(
+`Hi ${bk.firstName},
+
+Your booking details:
+
+Service: ${bk.service}
+Date: ${dateStr}
+Time: ${bk.time}
+Address: ${bk.address||'(not provided)'}
+Status: ${bk.status.charAt(0).toUpperCase()+bk.status.slice(1)}
+
+${bk.status==='confirmed'?'Your booking is confirmed! We look forward to making your home shine.':''}
+${bk.status==='cancelled'?'Unfortunately we need to cancel this booking. Please get in touch if you\'d like to reschedule.':''}
+
+Thanks,
+Tidy Home Christchurch`
+  );
+  window.open(`mailto:${bk.email}?subject=${subject}&body=${body}`);
+}
+
+// ── SETTINGS ──
+function renderSettings(){
+  const s=getSettings();
+  const availDays=s.availableDays||[1,2,3,4,5];
+  const dayNames=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const dayNums=[1,2,3,4,5,6,0];
+  document.getElementById('day-checks').innerHTML=dayNames.map((n,i)=>
+    `<label><input type="checkbox" value="${dayNums[i]}" ${availDays.includes(dayNums[i])?'checked':''}> ${n}</label>`
+  ).join('');
+  document.getElementById('set-start').value=s.startTime||'11:30';
+  document.getElementById('set-end').value=s.endTime||'15:00';
+  renderBlocked();
+}
+function renderBlocked(){
+  const s=getSettings();
+  const blocked=s.blockedDates||[];
+  if(!blocked.length){document.getElementById('blocked-list').innerHTML='<span style="font-size:0.78rem;color:var(--bark-light)">No blocked dates.</span>';return;}
+  document.getElementById('blocked-list').innerHTML=blocked.sort().map(d=>{
+    const dt=new Date(d+'T00:00:00');
+    return `<span class="blocked-item">${dt.toLocaleDateString('en-NZ',{day:'numeric',month:'short',year:'numeric'})} <button onclick="removeBlocked('${d}')">&times;</button></span>`;
+  }).join('');
+}
+function addBlocked(){
+  const d=document.getElementById('block-date').value;
+  if(!d)return;
+  const s=getSettings();
+  if(!s.blockedDates)s.blockedDates=[];
+  if(!s.blockedDates.includes(d))s.blockedDates.push(d);
+  saveSettingsData(s);
+  document.getElementById('block-date').value='';
+  renderBlocked();
+  toast('Date blocked');
+}
+function removeBlocked(d){
+  const s=getSettings();
+  s.blockedDates=(s.blockedDates||[]).filter(x=>x!==d);
+  saveSettingsData(s);
+  renderBlocked();
+  toast('Date unblocked');
+}
+function saveSettings(){
+  const s=getSettings();
+  const checks=document.querySelectorAll('#day-checks input[type="checkbox"]');
+  s.availableDays=[];
+  checks.forEach(c=>{if(c.checked)s.availableDays.push(parseInt(c.value));});
+  s.startTime=document.getElementById('set-start').value;
+  s.endTime=document.getElementById('set-end').value;
+  saveSettingsData(s);
+  toast('Settings saved');
+}
+function exportBookings(){
+  const data=JSON.stringify(getBookings(),null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='tidyhome-bookings-'+fmtDate(new Date())+'.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Bookings exported');
+}
+
+// ── HELPERS ──
+function fmtDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function getMonday(d){const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);return new Date(d.getFullYear(),d.getMonth(),diff);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ── INIT ──
+renderDashboard();
+</script>
+</body>
+</html>
