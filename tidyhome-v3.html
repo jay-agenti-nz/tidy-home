@@ -324,6 +324,25 @@ nav {
   font-size: 0.72rem; color: var(--bark-light); text-align: center;
 }
 
+/* Animated map card */
+.map-label {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--bark); margin-bottom: 0.75rem;
+}
+.map-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--blue); display: inline-block; flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+.map-wrap { border-radius: 8px; overflow: hidden; border: 1.5px solid var(--linen); }
+.chch-map { display: block; width: 100%; }
+.map-note { margin-top: 0.75rem; font-size: 0.72rem; color: var(--bark-light); text-align: center; }
+
 /* Scarcity dot */
 .dot-live {
   width: 6px; height: 6px; border-radius: 50%;
@@ -568,6 +587,8 @@ section { padding: 6rem 5vw; }
 .t-slot.selected { border-color: var(--blue); background: var(--blue-pale); }
 .t-slot-t { font-size: 0.82rem; font-weight: 700; color: var(--bark); }
 .t-slot-s { font-size: 0.68rem; color: var(--blue); margin-top: 1px; font-weight: 600; }
+.t-slot.booked-slot { opacity: 0.42; cursor: not-allowed; pointer-events: none; background: var(--linen); border-color: transparent; }
+.t-slot.booked-slot .t-slot-s { color: var(--bark-light); }
 
 /* Form */
 .field { margin-bottom: 0.9rem; }
@@ -778,10 +799,10 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
       <div class="hero-eyebrow-line"></div>
       <span>Christchurch, New Zealand</span>
     </div>
-    <h1>Christchurch's trusted clean <em>between guests.</em></h1>
-    <p class="hero-desc">Reliable Airbnb turnaround cleans and home cleaning for Christchurch homes, townhouses and apartments. From $45/hr — book your slot online.</p>
+    <h1>We clean it. <em>You enjoy it.</em></h1>
+    <p class="hero-desc">Airbnb turnovers and regular home cleans for Christchurch — fast, thorough, and always on time.</p>
     <div class="hero-rate">
-      <div class="rate-num">$45</div>
+      <div class="rate-num">From $45</div>
       <div class="rate-label">/ hour · no hidden fees</div>
     </div>
     <div class="hero-ctas">
@@ -790,31 +811,52 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
     </div>
   </div>
 
-  <!-- Slot preview card -->
+  <!-- Animated map card -->
   <div class="hero-card">
-    <div class="hero-card-tag"><span class="dot-live"></span> Live availability</div>
-    <h3>This week's slots</h3>
-    <div class="slot-item">
-      <div><div class="slot-day">Monday 7 Apr</div><div class="slot-time">11:30am or 12:00pm · ~2 hrs</div></div>
-      <span class="slot-pill open">Open</span>
+    <div class="map-label">
+      <span class="map-dot"></span>
+      <span>On the road · Christchurch</span>
     </div>
-    <div class="slot-item taken">
-      <div><div class="slot-day">Tuesday 8 Apr</div><div class="slot-time">11:30am · ~2 hrs</div></div>
-      <span class="slot-pill taken">Booked</span>
+    <div class="map-wrap">
+      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" class="chch-map">
+        <!-- Map background -->
+        <rect width="280" height="200" fill="#f5f1eb"/>
+        <!-- Hagley Park -->
+        <rect x="4" y="12" width="44" height="176" rx="4" fill="#c8dfc4"/>
+        <text x="26" y="103" text-anchor="middle" font-size="5.5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8">HAGLEY</text>
+        <text x="26" y="111" text-anchor="middle" font-size="5.5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8">PARK</text>
+        <!-- Four Avenues boundary -->
+        <rect x="52" y="12" width="224" height="176" rx="0" fill="none" stroke="#b0a497" stroke-width="2.5"/>
+        <!-- Street grid horizontal -->
+        <line x1="52" y1="47" x2="276" y2="47" stroke="#ddd7ce" stroke-width="1"/>
+        <line x1="52" y1="82" x2="276" y2="82" stroke="#ddd7ce" stroke-width="1"/>
+        <line x1="52" y1="117" x2="276" y2="117" stroke="#ddd7ce" stroke-width="1"/>
+        <line x1="52" y1="152" x2="276" y2="152" stroke="#ddd7ce" stroke-width="1"/>
+        <!-- Street grid vertical -->
+        <line x1="96" y1="12" x2="96" y2="188" stroke="#ddd7ce" stroke-width="1"/>
+        <line x1="140" y1="12" x2="140" y2="188" stroke="#ddd7ce" stroke-width="1"/>
+        <line x1="184" y1="12" x2="184" y2="188" stroke="#ddd7ce" stroke-width="1"/>
+        <line x1="228" y1="12" x2="228" y2="188" stroke="#ddd7ce" stroke-width="1"/>
+        <!-- Avon River -->
+        <path d="M52,68 Q88,56 128,72 Q162,86 196,70 Q232,56 262,74" fill="none" stroke="#a4c8e4" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- Victoria Square -->
+        <rect x="105" y="53" width="18" height="14" rx="2" fill="#c8dfc4" opacity="0.8"/>
+        <!-- Cathedral Square -->
+        <rect x="148" y="90" width="24" height="20" rx="2" fill="#e2d8cc"/>
+        <text x="160" y="103" text-anchor="middle" font-size="4" fill="#8a7868" font-family="sans-serif" letter-spacing="0.3">SQUARE</text>
+        <!-- Animated cleaning van -->
+        <g>
+          <rect x="-9" y="-5" width="18" height="10" rx="2" fill="#2336c8"/>
+          <rect x="-4" y="-9" width="10" height="5" rx="1" fill="#3046d8"/>
+          <rect x="6" y="-3" width="3" height="6" rx="1" fill="#7090f8" opacity="0.8"/>
+          <circle cx="-4" cy="5" r="2.2" fill="#111"/>
+          <circle cx="5" cy="5" r="2.2" fill="#111"/>
+          <animateMotion dur="22s" repeatCount="indefinite" rotate="auto"
+            path="M96,12 L228,12 L228,47 L276,47 L276,117 L228,117 L228,188 L140,188 L140,152 L96,152 L96,117 L52,117 L52,82 L96,82 Z"/>
+        </g>
+      </svg>
     </div>
-    <div class="slot-item">
-      <div><div class="slot-day">Wednesday 9 Apr</div><div class="slot-time">11:30am or 12:00pm · ~2 hrs</div></div>
-      <span class="slot-pill open">Open</span>
-    </div>
-    <div class="slot-item taken">
-      <div><div class="slot-day">Thursday 10 Apr</div><div class="slot-time">12:00pm · ~2 hrs</div></div>
-      <span class="slot-pill taken">Booked</span>
-    </div>
-    <div class="slot-item">
-      <div><div class="slot-day">Friday 11 Apr</div><div class="slot-time">11:30am or 12:00pm · ~2 hrs</div></div>
-      <span class="slot-pill open">Open</span>
-    </div>
-    <p class="hero-card-note">Limited slots each week — book early to secure yours.</p>
+    <p class="map-note">Serving Christchurch &amp; surrounding suburbs</p>
   </div>
 </section>
 
@@ -1188,17 +1230,24 @@ function pickDate(ds,d,dow){
   document.getElementById('b2').disabled=true;
   renderCal(); showSlots(d,dow);
 }
+const DISPLAY_SLOTS=[{l:'9:00 AM'},{l:'10:30 AM'}];
 function showSlots(d,dow){
   const wrap=document.getElementById('time-wrap');
   if(!selDate){wrap.style.display='none';return;}
   const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   document.getElementById('date-lbl').textContent=`${days[dow]||''} ${d||''} ${mo[calM]}`;
   wrap.style.display='block';
-  document.getElementById('slots-grid').innerHTML=getTimes().map(ts=>`
+  const bookedHtml=DISPLAY_SLOTS.map(ts=>`
+    <div class="t-slot booked-slot">
+      <div class="t-slot-t">${ts.l}</div>
+      <div class="t-slot-s">Booked</div>
+    </div>`).join('');
+  const openHtml=getTimes().map(ts=>`
     <div class="t-slot ${selTime===ts.t?'selected':''}" onclick="pickTime('${ts.t}',event)">
       <div class="t-slot-t">${ts.l}</div>
       <div class="t-slot-s">Available ✓</div>
     </div>`).join('');
+  document.getElementById('slots-grid').innerHTML=bookedHtml+openHtml;
 }
 function pickTime(t,e){
   selTime=t;
