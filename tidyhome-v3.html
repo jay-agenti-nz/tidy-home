@@ -818,41 +818,93 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
       <span>On the road · Christchurch</span>
     </div>
     <div class="map-wrap">
-      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" class="chch-map">
-        <!-- Map background -->
-        <rect width="280" height="200" fill="#f5f1eb"/>
-        <!-- Hagley Park -->
-        <rect x="4" y="12" width="44" height="176" rx="4" fill="#c8dfc4"/>
-        <text x="26" y="103" text-anchor="middle" font-size="5.5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8">HAGLEY</text>
-        <text x="26" y="111" text-anchor="middle" font-size="5.5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8">PARK</text>
-        <!-- Four Avenues boundary -->
-        <rect x="52" y="12" width="224" height="176" rx="0" fill="none" stroke="#b0a497" stroke-width="2.5"/>
-        <!-- Street grid horizontal -->
-        <line x1="52" y1="47" x2="276" y2="47" stroke="#ddd7ce" stroke-width="1"/>
-        <line x1="52" y1="82" x2="276" y2="82" stroke="#ddd7ce" stroke-width="1"/>
-        <line x1="52" y1="117" x2="276" y2="117" stroke="#ddd7ce" stroke-width="1"/>
-        <line x1="52" y1="152" x2="276" y2="152" stroke="#ddd7ce" stroke-width="1"/>
-        <!-- Street grid vertical -->
-        <line x1="96" y1="12" x2="96" y2="188" stroke="#ddd7ce" stroke-width="1"/>
-        <line x1="140" y1="12" x2="140" y2="188" stroke="#ddd7ce" stroke-width="1"/>
-        <line x1="184" y1="12" x2="184" y2="188" stroke="#ddd7ce" stroke-width="1"/>
-        <line x1="228" y1="12" x2="228" y2="188" stroke="#ddd7ce" stroke-width="1"/>
-        <!-- Avon River -->
-        <path d="M52,68 Q88,56 128,72 Q162,86 196,70 Q232,56 262,74" fill="none" stroke="#a4c8e4" stroke-width="4.5" stroke-linecap="round"/>
-        <!-- Victoria Square -->
-        <rect x="105" y="53" width="18" height="14" rx="2" fill="#c8dfc4" opacity="0.8"/>
-        <!-- Cathedral Square -->
-        <rect x="148" y="90" width="24" height="20" rx="2" fill="#e2d8cc"/>
-        <text x="160" y="103" text-anchor="middle" font-size="4" fill="#8a7868" font-family="sans-serif" letter-spacing="0.3">SQUARE</text>
-        <!-- Animated cleaning van -->
+      <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg" class="chch-map">
+        <!-- Background -->
+        <rect width="320" height="230" fill="#f5f1eb"/>
+        <!-- Hagley Park (full rectangle, west side) -->
+        <rect x="6" y="15" width="92" height="200" rx="3" fill="#c8dfc4"/>
+        <!-- Harper Ave splits park at y=118 -->
+        <line x1="6" x2="98" y1="118" y2="118" stroke="#e8e2d8" stroke-width="1.8"/>
+        <text x="52" y="75" text-anchor="middle" font-size="5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8" font-weight="600">HAGLEY</text>
+        <text x="52" y="82" text-anchor="middle" font-size="5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8" font-weight="600">NORTH</text>
+        <text x="52" y="163" text-anchor="middle" font-size="5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8" font-weight="600">HAGLEY</text>
+        <text x="52" y="170" text-anchor="middle" font-size="5" fill="#5a7a56" font-family="sans-serif" letter-spacing="0.8" font-weight="600">SOUTH</text>
+        <!-- Botanic Gardens (irregular blob in Hagley North) -->
+        <path d="M 24,30 Q 50,22 78,35 Q 90,48 85,72 Q 78,90 60,95 Q 40,98 25,82 Q 14,65 18,48 Q 20,36 24,30 Z" fill="#a8d4a0"/>
+        <text x="52" y="56" text-anchor="middle" font-size="4.5" fill="#3d6b3a" font-family="sans-serif" letter-spacing="0.5" font-weight="700">BOTANIC</text>
+        <text x="52" y="63" text-anchor="middle" font-size="4.5" fill="#3d6b3a" font-family="sans-serif" letter-spacing="0.5" font-weight="700">GARDENS</text>
+        <!-- Four Avenues (CBD boundary) -->
+        <line x1="98" x2="310" y1="15" y2="15" stroke="#c8bfb0" stroke-width="3"/>
+        <line x1="98" x2="310" y1="215" y2="215" stroke="#c8bfb0" stroke-width="3"/>
+        <line x1="98" x2="98" y1="15" y2="215" stroke="#c8bfb0" stroke-width="2.5"/>
+        <line x1="310" x2="310" y1="15" y2="215" stroke="#c8bfb0" stroke-width="3"/>
+        <!-- CBD street grid — horizontal -->
+        <line x1="98" x2="310" y1="55" y2="55" stroke="#ddd7ce" stroke-width="1.2"/>
+        <line x1="98" x2="310" y1="88" y2="88" stroke="#ddd7ce" stroke-width="1.2"/>
+        <line x1="98" x2="310" y1="125" y2="125" stroke="#ddd7ce" stroke-width="1.2"/>
+        <line x1="98" x2="310" y1="162" y2="162" stroke="#ddd7ce" stroke-width="1.2"/>
+        <!-- CBD street grid — vertical -->
+        <line x1="125" x2="125" y1="15" y2="215" stroke="#ddd7ce" stroke-width="1.2"/>
+        <line x1="165" x2="165" y1="15" y2="215" stroke="#ddd7ce" stroke-width="1.2"/>
+        <line x1="205" x2="205" y1="15" y2="215" stroke="#ddd7ce" stroke-width="1.2"/>
+        <line x1="240" x2="240" y1="15" y2="215" stroke="#ddd7ce" stroke-width="1.2"/>
+        <!-- Street labels (horizontal streets) -->
+        <text x="313" y="57" font-size="4" fill="#9a8e82" font-family="sans-serif">Kilmore</text>
+        <text x="313" y="90" font-size="4" fill="#9a8e82" font-family="sans-serif">Gloucester</text>
+        <text x="313" y="127" font-size="4" fill="#9a8e82" font-family="sans-serif">Hereford</text>
+        <text x="313" y="164" font-size="4" fill="#9a8e82" font-family="sans-serif">Tuam</text>
+        <!-- Street labels (vertical streets, above Bealey) -->
+        <text x="125" y="12" text-anchor="middle" font-size="4" fill="#9a8e82" font-family="sans-serif">Victoria</text>
+        <text x="165" y="12" text-anchor="middle" font-size="4" fill="#9a8e82" font-family="sans-serif">Colombo</text>
+        <text x="205" y="12" text-anchor="middle" font-size="4" fill="#9a8e82" font-family="sans-serif">Manchester</text>
+        <text x="240" y="12" text-anchor="middle" font-size="4" fill="#9a8e82" font-family="sans-serif">Madras</text>
+        <!-- Avenue boundary labels -->
+        <text x="200" y="8" text-anchor="middle" font-size="4.5" fill="#8a8078" font-family="sans-serif" font-weight="700" letter-spacing="0.8">BEALEY AVE</text>
+        <text x="200" y="228" text-anchor="middle" font-size="4.5" fill="#8a8078" font-family="sans-serif" font-weight="700" letter-spacing="0.8">MOORHOUSE AVE</text>
+        <text transform="rotate(90,318,115)" x="318" y="115" text-anchor="middle" font-size="4" fill="#8a8078" font-family="sans-serif" font-weight="700" letter-spacing="0.6">FITZGERALD AVE</text>
+        <!-- Avon River — shadow glow pass -->
+        <path d="M 45,90 Q 75,65 98,65 Q 120,57 135,55 Q 155,55 165,68 Q 195,82 220,75 Q 250,68 280,78 L 310,88"
+              fill="none" stroke="#8ab8d8" stroke-width="6" stroke-linecap="round" opacity="0.3"/>
+        <!-- Avon River — main stroke -->
+        <path d="M 45,90 Q 75,65 98,65 Q 120,57 135,55 Q 155,55 165,68 Q 195,82 220,75 Q 250,68 280,78 L 310,88"
+              fill="none" stroke="#a4c8e4" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="188" y="70" font-size="4" fill="#5a9ac0" font-family="sans-serif" font-style="italic">Avon River</text>
+        <!-- Victoria Square (north CBD, above Avon) -->
+        <rect x="110" y="48" width="20" height="18" rx="3" fill="#b8d4b4" opacity="0.9"/>
+        <text x="120" y="57" text-anchor="middle" font-size="3.5" fill="#3d6b3a" font-family="sans-serif" font-weight="700">VICTORIA</text>
+        <text x="120" y="62" text-anchor="middle" font-size="3.5" fill="#3d6b3a" font-family="sans-serif" font-weight="700">SQ</text>
+        <!-- Cathedral Square (central CBD) -->
+        <rect x="148" y="100" width="30" height="18" rx="3" fill="#e2d8cc"/>
+        <rect x="149" y="101" width="28" height="16" rx="2" fill="none" stroke="#c8bfb0" stroke-width="0.8"/>
+        <text x="163" y="109" text-anchor="middle" font-size="3.5" fill="#8a7868" font-family="sans-serif" font-weight="700">CATHEDRAL</text>
+        <text x="163" y="115" text-anchor="middle" font-size="3.5" fill="#8a7868" font-family="sans-serif" font-weight="700">SQUARE</text>
+        <!-- Battery indicator (fixed, bottom-right corner) -->
+        <g transform="translate(250,200)">
+          <rect x="0" y="0" width="28" height="10" rx="2" fill="none" stroke="#8a8078" stroke-width="1.5"/>
+          <rect x="28" y="3" width="3" height="4" rx="1" fill="#8a8078"/>
+          <rect x="2" y="2" width="22" height="6" rx="1" fill="#3cb84a"/>
+          <text x="14" y="9" text-anchor="middle" font-size="5.5" fill="white" font-family="sans-serif" font-weight="bold">87%</text>
+          <text x="-8" y="9" font-size="9" fill="#3cb84a">⚡</text>
+        </g>
+        <!-- Tesla Model Y — top-down, centered at origin, faces +X direction -->
         <g>
-          <rect x="-9" y="-5" width="18" height="10" rx="2" fill="#2336c8"/>
-          <rect x="-4" y="-9" width="10" height="5" rx="1" fill="#3046d8"/>
-          <rect x="6" y="-3" width="3" height="6" rx="1" fill="#7090f8" opacity="0.8"/>
-          <circle cx="-4" cy="5" r="2.2" fill="#111"/>
-          <circle cx="5" cy="5" r="2.2" fill="#111"/>
-          <animateMotion dur="22s" repeatCount="indefinite" rotate="auto"
-            path="M96,12 L228,12 L228,47 L276,47 L276,117 L228,117 L228,188 L140,188 L140,152 L96,152 L96,117 L52,117 L52,82 L96,82 Z"/>
+          <!-- Body -->
+          <rect x="-12" y="-5.5" width="24" height="11" rx="3.5" fill="#1a2b6e"/>
+          <!-- Panoramic glass roof -->
+          <rect x="-9" y="-4.2" width="18" height="8.4" rx="2" fill="#2a3d90"/>
+          <!-- Front LED strip (+X side) -->
+          <rect x="11" y="-3" width="1.5" height="6" rx="0.5" fill="#a8d4ff"/>
+          <!-- Rear light strip (-X side) -->
+          <rect x="-12.5" y="-3" width="1.5" height="6" rx="0.5" fill="#e03030" opacity="0.9"/>
+          <!-- Rear hatch crease -->
+          <line x1="-8" y1="-5.5" x2="-8" y2="5.5" stroke="#111e4a" stroke-width="0.6" opacity="0.6"/>
+          <!-- Wheels -->
+          <rect x="5" y="-7.5" width="5.5" height="2.8" rx="1.2" fill="#1a1a2e"/>
+          <rect x="5" y="4.7" width="5.5" height="2.8" rx="1.2" fill="#1a1a2e"/>
+          <rect x="-10.5" y="-7.5" width="5.5" height="2.8" rx="1.2" fill="#1a1a2e"/>
+          <rect x="-10.5" y="4.7" width="5.5" height="2.8" rx="1.2" fill="#1a1a2e"/>
+          <animateMotion dur="28s" repeatCount="indefinite" rotate="auto"
+            path="M 125,15 L 310,15 L 310,55 L 240,55 L 240,125 L 310,125 L 310,215 L 165,215 L 165,125 L 98,125 L 98,55 L 165,55 L 165,15 Z"/>
         </g>
       </svg>
     </div>
