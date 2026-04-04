@@ -255,7 +255,7 @@ nav {
 }
 .hero-rate .rate-num {
   font-family: 'TimesCondensed', serif;
-  font-size: 2.8rem; font-weight: 700; color: var(--blue); line-height: 1;
+  font-size: 2.2rem; font-weight: 700; color: var(--blue); line-height: 1;
 }
 .hero-rate .rate-label {
   font-size: 0.82rem; color: var(--bark-light); font-weight: 400;
@@ -749,6 +749,7 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
   .hero { grid-template-columns: 1fr; padding: 7rem 5vw 3rem; gap: 2rem; }
   .hero-card { margin-top: 1rem; }
   .hero h1 { font-size: 2.6rem; }
+  .hero h1 em { display: block; font-size: 3.2rem; }
 
   /* How section */
   .how-grid { grid-template-columns: 1fr; }
@@ -1087,7 +1088,7 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
           <p class="addon-label">Optional add-ons:</p>
           <div id="addon-list" class="addon-grid"></div>
         </div>
-        <button class="w-btn" id="b1" disabled onclick="goStep(2)">Continue — Choose Date →</button>
+        <button class="w-btn" id="b1" disabled onclick="goStep(2)" style="margin-top:1.8rem">Continue — Choose Date →</button>
       </div>
 
       <!-- STEP 2 -->
@@ -1112,6 +1113,10 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
           <div class="slots-lbl">Available times — <span id="date-lbl"></span></div>
           <div class="slots-grid" id="slots-grid"></div>
         </div>
+        <div class="field" style="margin-top:1.2rem">
+          <label>Or describe your preferred time / request</label>
+          <textarea id="f-pref" placeholder="e.g. Prefer mornings, or any time after 10am works great." style="height:70px;resize:none"></textarea>
+        </div>
         <button class="w-btn" id="b2" disabled onclick="goStep(3)">Continue — Your Details →</button>
         <button class="w-back" onclick="goStep(1)">← Back</button>
       </div>
@@ -1128,7 +1133,23 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
         <div class="field"><label>Email</label><input type="email" id="f-em" placeholder="jane@email.com"></div>
         <div class="field"><label>Phone</label><input type="tel" id="f-ph" placeholder="021 000 0000"></div>
         <div class="field"><label>Address & suburb</label><input type="text" id="f-ad" placeholder="12 Example St, Merivale"></div>
-        <div class="field"><label>Bedrooms / notes</label><textarea id="f-nt" placeholder="e.g. 3 bed, 2 bath. Dog in house."></textarea></div>
+        <div class="field-row">
+          <div class="field"><label>Property type</label>
+            <select id="f-pt"><option value="">Select…</option><option>Home</option><option>Townhouse</option><option>Apartment</option></select>
+          </div>
+          <div class="field"><label>Bedrooms</label>
+            <select id="f-bd"><option value="">Select…</option><option>1 bed</option><option>2 bed</option><option>3 bed</option></select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Bathrooms</label>
+            <select id="f-ba"><option value="">Select…</option><option>1 bath</option><option>2 bath</option></select>
+          </div>
+          <div class="field"><label>Living areas</label>
+            <select id="f-la"><option value="">Select…</option><option>1 area</option><option>2 areas</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="f-nt" placeholder="e.g. Dog in house. Entry code: 1234."></textarea></div>
         <button class="w-btn" onclick="submitBook()">Send booking request →</button>
         <button class="w-back" onclick="goStep(2)">← Back</button>
       </div>
@@ -1308,19 +1329,25 @@ function pickDate(ds,d,dow){
   document.getElementById('b2').disabled=true;
   renderCal(); showSlots(d,dow);
 }
-const DISPLAY_SLOTS=[{l:'9:00 AM'},{l:'10:30 AM'}];
+// dow: 0=Mon,1=Tue,2=Wed,3=Thu,4=Fri (calendar week starts Mon)
+const DOW_SLOTS={
+  mwf:{ booked:[{l:'9:00 AM'},{l:'10:30 AM'},{l:'3:30 PM'}], open:[{t:'11:00am',l:'11:00 AM'},{t:'1:00pm',l:'1:00 PM'}] },
+  tth:{ booked:[{l:'3:00 PM'}], open:[{t:'9:00am',l:'9:00 AM'},{t:'11:30am',l:'11:30 AM'},{t:'2:30pm',l:'2:30 PM'}] }
+};
 function showSlots(d,dow){
   const wrap=document.getElementById('time-wrap');
   if(!selDate){wrap.style.display='none';return;}
   const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   document.getElementById('date-lbl').textContent=`${days[dow]||''} ${d||''} ${mo[calM]}`;
   wrap.style.display='block';
-  const bookedHtml=DISPLAY_SLOTS.map(ts=>`
+  const key=(dow===1||dow===3||dow===5)?'mwf':'tth';
+  const {booked,open}=DOW_SLOTS[key];
+  const bookedHtml=booked.map(ts=>`
     <div class="t-slot booked-slot">
       <div class="t-slot-t">${ts.l}</div>
       <div class="t-slot-s">Booked</div>
     </div>`).join('');
-  const openHtml=getTimes().map(ts=>`
+  const openHtml=open.map(ts=>`
     <div class="t-slot ${selTime===ts.t?'selected':''}" onclick="pickTime('${ts.t}',event)">
       <div class="t-slot-t">${ts.l}</div>
       <div class="t-slot-s">Available ✓</div>
@@ -1342,7 +1369,7 @@ function renderSummary(){
     ${selAddons.length?`<div class="sum-row"><span class="sum-lbl">Add-ons</span><span>${selAddons.join(', ')}</span></div>`:''}
     <div class="sum-row"><span class="sum-lbl">Date</span><span>${d?d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'long',year:'numeric'}):''}</span></div>
     <div class="sum-row"><span class="sum-lbl">Time</span><span>${selTime}</span></div>
-    <div class="sum-row"><span class="sum-lbl">Rate</span><span>Pricing confirmed after booking</span></div>`;
+    <div class="sum-row"><span class="sum-lbl">Rate</span><span>${svcName.toLowerCase().includes('airbnb')?'From $99 per turnover':'From $45/hr'}</span></div>`;
 }
 
 // ── SUBMIT ──
@@ -1353,6 +1380,11 @@ function submitBook(){
   const ph=document.getElementById('f-ph').value.trim();
   const ad=document.getElementById('f-ad').value.trim();
   const nt=document.getElementById('f-nt').value.trim();
+  const pt=document.getElementById('f-pt').value;
+  const bd=document.getElementById('f-bd').value;
+  const ba=document.getElementById('f-ba').value;
+  const la=document.getElementById('f-la').value;
+  const pref=document.getElementById('f-pref').value.trim();
   if(!fn||!em){alert('Please enter your name and email.');return;}
 
   // Send to Netlify Forms
@@ -1365,7 +1397,9 @@ function submitBook(){
       addons: selAddons.join(', '),
       firstName: fn, lastName: ln,
       email: em, phone: ph,
-      address: ad, notes: nt
+      address: ad,
+      propertyType: pt, bedrooms: bd, bathrooms: ba, livingAreas: la,
+      preferredTime: pref, notes: nt
     }).toString()
   }).catch(()=>{});
 
@@ -1377,7 +1411,8 @@ function submitBook(){
     date:selDate, time:selTime,
     firstName:fn, lastName:ln,
     email:em, phone:ph,
-    address:ad, notes:nt,
+    address:ad, propertyType:pt, bedrooms:bd, bathrooms:ba, livingAreas:la,
+    preferredTime:pref, notes:nt,
     status:'pending',
     createdAt:new Date().toISOString()
   });
