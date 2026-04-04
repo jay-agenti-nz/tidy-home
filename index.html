@@ -1329,30 +1329,42 @@ function pickDate(ds,d,dow){
   document.getElementById('b2').disabled=true;
   renderCal(); showSlots(d,dow);
 }
-// dow: 0=Mon,1=Tue,2=Wed,3=Thu,4=Fri (calendar week starts Mon)
-const DOW_SLOTS={
-  mwf:{ booked:[{l:'9:00 AM'},{l:'10:30 AM'},{l:'3:30 PM'}], open:[{t:'11:00am',l:'11:00 AM'},{t:'1:00pm',l:'1:00 PM'}] },
-  tth:{ booked:[{l:'3:00 PM'}], open:[{t:'9:00am',l:'9:00 AM'},{t:'11:30am',l:'11:30 AM'},{t:'2:30pm',l:'2:30 PM'}] }
-};
+// dow uses JS getDay(): 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
+let selDow=null;
+
+function getSlotsForDay(dow){
+  if(dow===1||dow===3||dow===5){ // Mon, Wed, Fri
+    return [
+      {t:'11:30am',l:'11:30 AM',status:'available'},
+      {t:'12:30pm',l:'12:30 PM',status:'booked'},
+      {t:'1:30pm', l:'1:30 PM', status:'available'},
+    ];
+  }
+  if(dow===2||dow===4){ // Tue, Thu
+    return [
+      {t:'9:00am', l:'9:00 AM', status:'available'},
+      {t:'10:00am',l:'10:00 AM',status:'booked'},
+      {t:'11:00am',l:'11:00 AM',status:'available'},
+      {t:'1:00pm', l:'1:00 PM', status:'available'},
+      {t:'2:00pm', l:'2:00 PM', status:'booked'},
+    ];
+  }
+  return []; // Sat/Sun — no slots
+}
+
 function showSlots(d,dow){
+  if(dow!==undefined) selDow=dow;
   const wrap=document.getElementById('time-wrap');
   if(!selDate){wrap.style.display='none';return;}
   const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('date-lbl').textContent=`${days[dow]||''} ${d||''} ${mo[calM]}`;
+  if(d!==undefined) document.getElementById('date-lbl').textContent=`${days[selDow]||''} ${d} ${mo[calM]}`;
   wrap.style.display='block';
-  const key=(dow===1||dow===3||dow===5)?'mwf':'tth';
-  const {booked,open}=DOW_SLOTS[key];
-  const bookedHtml=booked.map(ts=>`
-    <div class="t-slot booked-slot">
-      <div class="t-slot-t">${ts.l}</div>
-      <div class="t-slot-s">Booked</div>
-    </div>`).join('');
-  const openHtml=open.map(ts=>`
-    <div class="t-slot ${selTime===ts.t?'selected':''}" onclick="pickTime('${ts.t}',event)">
-      <div class="t-slot-t">${ts.l}</div>
-      <div class="t-slot-s">Available ✓</div>
-    </div>`).join('');
-  document.getElementById('slots-grid').innerHTML=bookedHtml+openHtml;
+  const slots=getSlotsForDay(selDow);
+  document.getElementById('slots-grid').innerHTML=slots.map(s=>
+    s.status==='booked'
+      ? `<div class="t-slot booked-slot"><div class="t-slot-t">${s.l}</div><div class="t-slot-s">Booked</div></div>`
+      : `<div class="t-slot ${selTime===s.t?'selected':''}" onclick="pickTime('${s.t}',event)"><div class="t-slot-t">${s.l}</div><div class="t-slot-s">Available</div></div>`
+  ).join('');
 }
 function pickTime(t,e){
   selTime=t;
