@@ -823,135 +823,209 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
         <!-- Background -->
         <rect width="320" height="230" fill="#f5f1eb"/>
 
-        <!-- Outer house walls -->
-        <rect x="12" y="10" width="296" height="210" rx="6" fill="#ffffff" stroke="#c8bfb0" stroke-width="3"/>
+        <!-- Outer house walls (white fill = interior) -->
+        <rect x="12" y="10" width="296" height="210" rx="2" fill="#ffffff" stroke="#4a4238" stroke-width="3"/>
 
-        <!-- Room floors -->
-        <rect x="15" y="13" width="150" height="100" fill="#f5ede4"/>
-        <rect x="165" y="13" width="140" height="100" fill="#e4f0f8"/>
-        <rect x="15" y="113" width="130" height="104" fill="#f5f0e4"/>
-        <rect x="145" y="113" width="160" height="104" fill="#ede8dc"/>
+        <!-- Room floor tints -->
+        <rect x="14" y="12" width="139" height="171" fill="#faf8f4"/>
+        <rect x="14" y="185" width="139" height="33"  fill="#f0ede6"/>
+        <rect x="157" y="12" width="49"  height="141" fill="#edf3f7" opacity="0.7"/>
+        <rect x="157" y="157" width="49" height="61"  fill="#f3ede6"/>
+        <rect x="210" y="12" width="96"  height="111" fill="#f7f2ec"/>
+        <rect x="210" y="127" width="96" height="91"  fill="#f7f2ec"/>
 
-        <!-- Internal walls — horizontal divider (with door gaps) -->
-        <line x1="12" x2="55" y1="113" y2="113" stroke="#c8bfb0" stroke-width="3"/>
-        <line x1="77" x2="195" y1="113" y2="113" stroke="#c8bfb0" stroke-width="3"/>
-        <line x1="217" x2="308" y1="113" y2="113" stroke="#c8bfb0" stroke-width="3"/>
+        <!-- ═══ INTERIOR WALLS ═══ -->
 
-        <!-- Internal walls — top vertical (bedroom/bathroom, with door gap) -->
-        <line x1="165" x2="165" y1="13" y2="51" stroke="#c8bfb0" stroke-width="3"/>
-        <line x1="165" x2="165" y1="73" y2="113" stroke="#c8bfb0" stroke-width="3"/>
+        <!-- Living | Bath column wall (x=155) — door gap y=62–84 -->
+        <line x1="155" x2="155" y1="10"  y2="62"  stroke="#4a4238" stroke-width="2.5"/>
+        <line x1="155" x2="155" y1="84"  y2="220" stroke="#4a4238" stroke-width="2.5"/>
 
-        <!-- Internal walls — bottom vertical (kitchen/living, with door gap) -->
-        <line x1="145" x2="145" y1="113" y2="148" stroke="#c8bfb0" stroke-width="3"/>
-        <line x1="145" x2="145" y1="170" y2="220" stroke="#c8bfb0" stroke-width="3"/>
+        <!-- Bath column | Bedrooms wall (x=208) — gaps y=38–60 (Bed1), y=138–160 (Bed2) -->
+        <line x1="208" x2="208" y1="10"  y2="38"  stroke="#4a4238" stroke-width="2.5"/>
+        <line x1="208" x2="208" y1="60"  y2="138" stroke="#4a4238" stroke-width="2.5"/>
+        <line x1="208" x2="208" y1="160" y2="220" stroke="#4a4238" stroke-width="2.5"/>
 
-        <!-- Room labels -->
-        <text x="90" y="108" text-anchor="middle" font-size="5" fill="#9a8e82" font-family="sans-serif" letter-spacing="0.8" font-weight="600">BEDROOM</text>
-        <text x="235" y="108" text-anchor="middle" font-size="5" fill="#9a8e82" font-family="sans-serif" letter-spacing="0.8" font-weight="600">BATHROOM</text>
-        <text x="80" y="213" text-anchor="middle" font-size="5" fill="#9a8e82" font-family="sans-serif" letter-spacing="0.8" font-weight="600">KITCHEN</text>
-        <text x="225" y="213" text-anchor="middle" font-size="5" fill="#9a8e82" font-family="sans-serif" letter-spacing="0.8" font-weight="600">LIVING ROOM</text>
+        <!-- Bedroom divider (y=125) -->
+        <line x1="208" x2="308" y1="125" y2="125" stroke="#4a4238" stroke-width="2"/>
 
-        <!-- BEDROOM furniture -->
-        <!-- Mattress -->
-        <rect x="20" y="18" width="60" height="42" rx="4" fill="#d4c8bc"/>
-        <!-- Pillows -->
-        <rect x="23" y="20" width="25" height="12" rx="3" fill="#f0e8e0"/>
-        <rect x="52" y="20" width="25" height="12" rx="3" fill="#f0e8e0"/>
-        <!-- Nightstand -->
-        <rect x="88" y="26" width="16" height="16" rx="3" fill="#c4b8ac"/>
-        <!-- Bedside lamp (tiny circle) -->
-        <circle cx="96" cy="34" r="3" fill="#e8d8b8" opacity="0.8"/>
-        <!-- Wardrobe -->
-        <rect x="20" y="75" width="50" height="16" rx="2" fill="#c4b8ac"/>
-        <line x1="45" y1="75" x2="45" y2="91" stroke="#b0a498" stroke-width="0.8"/>
+        <!-- Bath/Study divider (y=155) — door gap x=168–192 -->
+        <line x1="155" x2="168" y1="155" y2="155" stroke="#4a4238" stroke-width="2"/>
+        <line x1="192" x2="206" y1="155" y2="155" stroke="#4a4238" stroke-width="2"/>
 
-        <!-- BATHROOM furniture -->
-        <!-- Bathtub -->
-        <rect x="172" y="16" width="55" height="28" rx="8" fill="#ffffff" stroke="#b8d4e8" stroke-width="1.5"/>
-        <!-- Tub inner -->
-        <rect x="176" y="20" width="47" height="20" rx="6" fill="#e4f4ff" opacity="0.6"/>
-        <!-- Toilet -->
-        <rect x="238" y="16" width="20" height="28" rx="6" fill="#f8f8f8" stroke="#c8c0b8" stroke-width="1"/>
-        <ellipse cx="248" cy="32" rx="7" ry="9" fill="#f0f0f0" stroke="#c8c0b8" stroke-width="0.8"/>
-        <!-- Sink -->
-        <rect x="172" y="58" width="22" height="18" rx="5" fill="#f8f8f8" stroke="#c8c0b8" stroke-width="1"/>
-        <!-- Tap dot -->
-        <circle cx="183" cy="67" r="2" fill="#b8d0e0"/>
+        <!-- Kitchen visual divider (y=185, dashed — open plan) -->
+        <line x1="14" x2="153" y1="185" y2="185" stroke="#9a9080" stroke-width="0.5" stroke-dasharray="3,3"/>
 
-        <!-- KITCHEN furniture -->
-        <!-- Counter horizontal -->
-        <rect x="18" y="116" width="80" height="16" rx="3" fill="#c4b8ac"/>
-        <!-- Counter vertical -->
-        <rect x="18" y="116" width="16" height="58" rx="3" fill="#c4b8ac"/>
-        <!-- Stove detail on counter top -->
-        <circle cx="42" cy="124" r="4" fill="#a8a090" opacity="0.8"/>
-        <circle cx="58" cy="124" r="4" fill="#a8a090" opacity="0.8"/>
-        <!-- Kitchen table -->
-        <rect x="60" y="168" width="40" height="28" rx="4" fill="#d4c4a8"/>
-        <!-- Chairs (hint rects) -->
-        <rect x="64" y="162" width="14" height="8" rx="2" fill="#c4b4a0"/>
-        <rect x="82" y="162" width="14" height="8" rx="2" fill="#c4b4a0"/>
-        <rect x="64" y="196" width="14" height="8" rx="2" fill="#c4b4a0"/>
-        <rect x="82" y="196" width="14" height="8" rx="2" fill="#c4b4a0"/>
-
-        <!-- LIVING ROOM furniture -->
-        <!-- Rug -->
-        <ellipse cx="222" cy="168" rx="56" ry="38" fill="#e0d0bc" opacity="0.6"/>
-        <!-- Coffee table -->
-        <rect x="192" y="152" width="44" height="26" rx="4" fill="#d4c4a8"/>
-        <!-- Sofa back -->
-        <rect x="155" y="178" width="95" height="9" rx="4" fill="#a0b4d0"/>
-        <!-- Sofa seat -->
-        <rect x="155" y="185" width="95" height="22" rx="6" fill="#b8c8e0"/>
-        <!-- Sofa cushion dividers -->
-        <line x1="202" y1="185" x2="202" y2="207" stroke="#a0b4d0" stroke-width="1.2"/>
-        <!-- Side table -->
-        <rect x="262" y="158" width="18" height="18" rx="3" fill="#c4b4a0"/>
-
-        <!-- SPARKLE effects (gold stars at room centres, staggered fade) -->
-        <g transform="translate(85,50)">
-          <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
-            <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" begin="0s" repeatCount="indefinite"/>
-          </path>
-        </g>
-        <g transform="translate(228,55)">
-          <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
-            <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" begin="2s" repeatCount="indefinite"/>
-          </path>
-        </g>
-        <g transform="translate(62,160)">
-          <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
-            <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" begin="4.5s" repeatCount="indefinite"/>
-          </path>
-        </g>
-        <g transform="translate(228,155)">
-          <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
-            <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" begin="7s" repeatCount="indefinite"/>
-          </path>
-        </g>
-        <g transform="translate(145,113)">
-          <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
-            <animate attributeName="opacity" values="0;0.9;0" dur="2.5s" begin="9.5s" repeatCount="indefinite"/>
-          </path>
+        <!-- ═══ DOOR SWING ARCS ═══ -->
+        <g fill="none" stroke="#b0a498" stroke-width="0.7">
+          <!-- Living→Bath at x=155, gap y=62–84, swings into bath -->
+          <path d="M 155,84 A 22,22 0 0,0 177,62"/>
+          <!-- Bath→Bed1 at x=208, gap y=38–60, swings into corridor -->
+          <path d="M 208,60 A 22,22 0 0,0 186,38"/>
+          <!-- Bath→Bed2 at x=208, gap y=138–160, swings into corridor -->
+          <path d="M 208,160 A 22,22 0 0,0 186,138"/>
+          <!-- Study door at y=155, gap x=168–192, swings into study -->
+          <path d="M 168,155 A 24,24 0 0,1 192,179"/>
+          <!-- Living top wardrobe/closet arcs -->
+          <path d="M 40,10 A 18,18 0 0,1 58,28"/>
+          <path d="M 76,10 A 18,18 0 0,0 58,28"/>
         </g>
 
-        <!-- CLEANER CHARACTER (top-down sprite, centred at 0,0, rotate=auto) -->
+        <!-- ═══ FURNITURE — outline only, light strokes ═══ -->
+
+        <!-- Living / Dining -->
+        <g fill="none" stroke="#c0b8a8" stroke-width="0.6">
+          <!-- Sofa against top wall -->
+          <rect x="20" y="16" width="70" height="16" rx="2"/>
+          <line x1="55" y1="16" x2="55" y2="32"/>
+          <line x1="20" y1="22" x2="90" y2="22"/>
+          <!-- Armchair -->
+          <rect x="118" y="16" width="22" height="22" rx="3"/>
+          <!-- Dining table -->
+          <rect x="48" y="96" width="55" height="36" rx="1"/>
+          <!-- 6 chairs (tiny rects) -->
+          <rect x="55"  y="88"  width="10" height="8" rx="1.5"/>
+          <rect x="78"  y="88"  width="10" height="8" rx="1.5"/>
+          <rect x="55"  y="132" width="10" height="8" rx="1.5"/>
+          <rect x="78"  y="132" width="10" height="8" rx="1.5"/>
+          <rect x="40"  y="102" width="8"  height="8" rx="1.5"/>
+          <rect x="103" y="102" width="8"  height="8" rx="1.5"/>
+        </g>
+
+        <!-- Kitchen -->
+        <g fill="none" stroke="#c0b8a8" stroke-width="0.5">
+          <!-- Counter -->
+          <rect x="16" y="196" width="136" height="20" rx="1"/>
+          <!-- Fridge -->
+          <rect x="18" y="197" width="16" height="18" rx="1"/>
+          <text x="26" y="209" text-anchor="middle" font-size="4" fill="#a09888" font-family="sans-serif">F</text>
+          <!-- Sink -->
+          <rect x="42" y="199" width="14" height="12" rx="3" stroke="#a0b8c8"/>
+          <circle cx="49" cy="205" r="2" stroke="#a0b8c8"/>
+          <!-- Dishwasher -->
+          <rect x="60" y="197" width="14" height="18" rx="1"/>
+          <text x="67" y="209" text-anchor="middle" font-size="3.5" fill="#a09888" font-family="sans-serif">DW</text>
+          <!-- Cooktop 4 burners -->
+          <circle cx="82" cy="203" r="4"/>
+          <circle cx="94" cy="203" r="4"/>
+          <circle cx="82" cy="213" r="3.5"/>
+          <circle cx="94" cy="213" r="3.5"/>
+        </g>
+
+        <!-- Bathroom -->
+        <g fill="none" stroke="#b0c0c8" stroke-width="0.6">
+          <!-- Bathtub outer + inner -->
+          <rect x="157" y="13" width="34" height="20" rx="4"/>
+          <rect x="160" y="15" width="28" height="16" rx="3" stroke-width="0.4"/>
+          <!-- Toilet tank + bowl -->
+          <rect x="194" y="13" width="10" height="10" rx="1" stroke="#c0b8a8"/>
+          <ellipse cx="199" cy="29" rx="7" ry="9" stroke="#c0b8a8"/>
+          <!-- Vanity sink -->
+          <rect x="157" y="42" width="16" height="14" rx="3"/>
+          <circle cx="165" cy="49" r="2.5" stroke-width="0.4"/>
+          <!-- Washing machine -->
+          <rect x="157" y="62" width="16" height="16" rx="2" stroke="#c0b8a8"/>
+          <circle cx="165" cy="70" r="5" stroke="#c0b8a8"/>
+          <text x="165" y="72" text-anchor="middle" font-size="3" fill="#a09888" font-family="sans-serif">W/M</text>
+          <!-- HWC -->
+          <circle cx="165" cy="100" r="9" stroke="#c0b8a8"/>
+          <text x="165" y="102" text-anchor="middle" font-size="3" fill="#a09888" font-family="sans-serif">HWC</text>
+          <!-- Shower arc -->
+          <path d="M 200,148 A 42,42 0 0,0 157,106"/>
+        </g>
+
+        <!-- Study -->
+        <g fill="none" stroke="#c0b8a8" stroke-width="0.5">
+          <rect x="157" y="160" width="46" height="12" rx="1"/>
+          <rect x="172" y="174" width="12" height="10" rx="2"/>
+        </g>
+
+        <!-- Bedroom 1 -->
+        <g fill="none" stroke="#c0b8a8" stroke-width="0.6">
+          <rect x="248" y="16" width="52" height="64" rx="2"/>
+          <line x1="296" y1="16" x2="296" y2="80" stroke-width="0.8"/>
+          <rect x="258" y="18" width="14" height="10" rx="2" stroke-width="0.4"/>
+          <rect x="276" y="18" width="14" height="10" rx="2" stroke-width="0.4"/>
+          <line x1="258" y1="32" x2="258" y2="78" stroke-width="0.3"/>
+        </g>
+
+        <!-- Bedroom 2 -->
+        <g fill="none" stroke="#c0b8a8" stroke-width="0.6">
+          <rect x="248" y="140" width="52" height="64" rx="2"/>
+          <line x1="296" y1="140" x2="296" y2="204" stroke-width="0.8"/>
+          <rect x="258" y="142" width="14" height="10" rx="2" stroke-width="0.4"/>
+          <rect x="276" y="142" width="14" height="10" rx="2" stroke-width="0.4"/>
+          <line x1="258" y1="156" x2="258" y2="202" stroke-width="0.3"/>
+        </g>
+
+        <!-- ═══ ROOM LABELS ═══ -->
+        <g font-size="4.5" fill="#b0a498" font-family="sans-serif" letter-spacing="0.8" text-anchor="middle">
+          <text x="82" y="72">LIVING</text>
+          <text x="82" y="88">DINING</text>
+          <text x="82" y="194">KITCHEN</text>
+          <text x="181" y="32">BATHROOM</text>
+          <text x="181" y="178">STUDY</text>
+          <text x="258" y="100">BEDROOM 1</text>
+          <text x="258" y="196">BEDROOM 2</text>
+        </g>
+
+        <!-- ═══ SPARKLES ═══ -->
         <g>
-          <!-- Mop handle (points forward = +x direction) -->
+          <g transform="translate(80,60)">
+            <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="3s" repeatCount="indefinite"/>
+            </path>
+          </g>
+          <g transform="translate(181,50)">
+            <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="10s" repeatCount="indefinite"/>
+            </path>
+          </g>
+          <g transform="translate(255,65)">
+            <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="18s" repeatCount="indefinite"/>
+            </path>
+          </g>
+          <g transform="translate(255,175)">
+            <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="26s" repeatCount="indefinite"/>
+            </path>
+          </g>
+          <g transform="translate(181,185)">
+            <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="34s" repeatCount="indefinite"/>
+            </path>
+          </g>
+          <g transform="translate(80,205)">
+            <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#ffcc44">
+              <animate attributeName="opacity" values="0;0.9;0" dur="3s" begin="42s" repeatCount="indefinite"/>
+            </path>
+          </g>
+        </g>
+
+        <!-- ═══ CLEANER CHARACTER
+             Doors: x=155 gap y=62–84 | x=208 gap y=38–60 | x=208 gap y=138–160 | y=155 gap x=168–192
+             All path moves are horizontal or vertical only. ═══ -->
+        <g>
           <rect x="6" y="-1" width="12" height="2" rx="1" fill="#c8a878"/>
-          <!-- Mop head -->
           <ellipse cx="20" cy="0" rx="5" ry="3.5" fill="#d8d8f0" opacity="0.9"/>
-          <!-- Body (blue uniform) -->
           <circle cx="0" cy="0" r="7" fill="#2d2dff"/>
-          <!-- Face -->
           <circle cx="0" cy="0" r="4.5" fill="#ffd09a"/>
-          <!-- Eyes -->
           <circle cx="-1.2" cy="-1.2" r="0.9" fill="#3d2808"/>
-          <circle cx="1.5" cy="-1.2" r="0.9" fill="#3d2808"/>
-          <!-- Smile -->
+          <circle cx="1.5"  cy="-1.2" r="0.9" fill="#3d2808"/>
           <path d="M -1.5,1 Q 0,2.5 1.5,1" fill="none" stroke="#3d2808" stroke-width="0.7" stroke-linecap="round"/>
-          <animateMotion dur="22s" repeatCount="indefinite" rotate="auto"
-            path="M 80,55 L 25,55 L 25,25 L 140,25 L 140,62 L 165,62 L 175,30 L 290,30 L 290,95 L 175,95 L 165,95 L 165,113 L 55,113 L 25,145 L 25,205 L 130,205 L 130,145 L 70,145 L 145,160 L 295,205 L 295,125 L 155,125 L 155,178 L 248,178 L 155,178 L 155,113 L 80,55 Z"/>
+          <animateMotion dur="50s" repeatCount="indefinite" rotate="auto" calcMode="paced"
+            path="M 80,60
+                  L 140,60 L 140,20 L 20,20 L 20,75 L 140,75
+                  L 140,73 L 155,73
+                  L 185,73 L 185,22 L 162,22 L 162,118 L 200,118
+                  L 200,49 L 196,49 L 208,49
+                  L 295,49 L 295,18 L 215,18 L 215,118
+                  L 215,49 L 208,49 L 196,49 L 196,149 L 208,149
+                  L 295,149 L 295,212 L 215,212 L 215,149 L 208,149
+                  L 180,149 L 180,155
+                  L 180,165 L 162,165 L 162,210 L 200,210 L 200,165 L 180,165
+                  L 180,155 L 180,73 L 155,73
+                  L 20,73 L 20,170 L 20,195 L 140,195 L 140,170 L 80,170 L 80,60 Z"/>
         </g>
 
       </svg>
