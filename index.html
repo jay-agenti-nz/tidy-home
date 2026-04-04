@@ -1115,7 +1115,7 @@ footer p { font-size: 0.75rem; color: var(--bark-light); }
         </div>
         <div class="field" style="margin-top:1.2rem">
           <label>Or describe your preferred time / request</label>
-          <textarea id="f-pref" placeholder="e.g. Prefer mornings, or any time after 10am works great." style="height:70px;resize:none"></textarea>
+          <textarea id="f-pref" placeholder="e.g. Prefer mornings, or any time after 10am works great." style="height:70px;resize:none" oninput="document.getElementById('b2').disabled=!(selTime||this.value.trim())"></textarea>
         </div>
         <button class="w-btn" id="b2" disabled onclick="goStep(3)">Continue — Your Details →</button>
         <button class="w-back" onclick="goStep(1)">← Back</button>
